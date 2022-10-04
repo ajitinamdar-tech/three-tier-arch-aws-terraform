@@ -40,7 +40,18 @@ module "alb" {
       backend_protocol = "HTTP"
       backend_port     = 80
       target_type      = "instance"
-      #stickiness       = { "enabled" = true, "type" = "lb_cookie" }
+      stickiness       = { "enabled" = true, "type" = "lb_cookie" }
+      health_check = {
+        enabled             = true
+        interval            = 30
+        path                = "/phpinfo.php"
+        port                = "traffic-port"
+        healthy_threshold   = 3
+        unhealthy_threshold = 3
+        timeout             = 6
+        protocol            = "HTTP"
+        matcher             = "200-399"
+      }
     },
   ]
 
